@@ -1,14 +1,14 @@
 spring:
   application:
-    name: book-service
+    name: solicitudCredito-service
   cloud:
     config:
       enabled: true
       uri: http://localhost:8081
   datasource:
-    url: jdbc:mysql://localhost:3306/bdmicros
-    username: root
-    password: Chile&2022
+    url: jdbc:postgresql://localhost:5432/solicitudCredito
+    username: postgresql
+    password: alonsoreyes104
   jpa:
     hibernate:
       ddl-auto: update
