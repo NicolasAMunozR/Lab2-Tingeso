@@ -1,5 +1,6 @@
 package solicitudCreditoservice.solicitudCredito_service.Services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -77,6 +78,7 @@ public class SolicitudCreditoService {
      * @param user_id A Long with the id of the client to search the loan.
      * @return A List with the loans found.
      */
+    @Transactional
     public ArrayList<SolicitudCreditoEntity> findByIdUser(Long id) {
         return (ArrayList<SolicitudCreditoEntity>) solicitudCreditoRepository.findByUserId(id);
     }

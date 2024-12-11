@@ -1,5 +1,6 @@
 package nuevosUsuariosservice.nuevosUsuarios_service.Services;
 
+import jakarta.transaction.Transactional;
 import nuevosUsuariosservice.nuevosUsuarios_service.Entities.NuevosUsuariosEntity;
 import nuevosUsuariosservice.nuevosUsuarios_service.Models.SolicitudCreditoModel;
 import nuevosUsuariosservice.nuevosUsuarios_service.Repositories.NuevosUsuariosRepository;
@@ -85,6 +86,7 @@ public class NuevosUsuariosService {
         //    creditService.deleted(user);
         //}
     }
+    @Transactional
     public List<SolicitudCreditoModel> findCreditByIdUser(Long id){
         List<SolicitudCreditoModel> credit = restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/byUser/" + id, List.class);
         return credit;
