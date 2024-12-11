@@ -25,17 +25,6 @@ public class EvaluacionCreditoService {
      * @return A List with the loans found.
      */
     public SolicitudCreditoModel findById(Long id) {
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getAdministrationFee());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getCreditHistory());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getLoanTerm());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getBusinessPlan());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getAppraisalCertificate());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getAnnualInterestRate());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getMonthlyDebt());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getMonthlyIncome());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getUserId());
-        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getRemodelingBudget());
-
         return restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class);
     }
     /**
@@ -43,8 +32,8 @@ public class EvaluacionCreditoService {
      * @param credit A CreditEntity with the data of the loan to save.
      * @return A CreditEntity with the data of the loan saved.
      */
-    public SolicitudCreditoModel saveCredit(SolicitudCreditoModel credit) {
-        return restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", credit, SolicitudCreditoModel.class);
+    public SolicitudCreditoModel saveCredit(SolicitudCreditoModel credito) {
+        return restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", credito, SolicitudCreditoModel.class);
     }
     /**
      * Method that allows evaluating a loan.

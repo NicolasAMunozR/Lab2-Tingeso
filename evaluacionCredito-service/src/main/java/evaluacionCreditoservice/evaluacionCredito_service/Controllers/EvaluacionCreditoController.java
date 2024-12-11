@@ -111,8 +111,10 @@ public class EvaluacionCreditoController {
             credit.setAdministrationFee(administrationFee);
             // The total cost of the loan is calculated.
             evaluacionCreditoService.totalCost(credit);
+            System.out.println("evaluacionCreditoService.totalCost(credit)");
             // The loan is saved in the database.
             SolicitudCreditoModel creditSaved = evaluacionCreditoService.saveCredit(credit);
+            System.out.println("HOLA");
             // The loan is returned.
             return ResponseEntity.ok(creditSaved);
         }

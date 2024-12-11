@@ -145,10 +145,13 @@ public class SolicitudCreditoController {
     @PutMapping("/rejectTerms/{id}")
     public ResponseEntity<SolicitudCreditoEntity> rejectTerms(@PathVariable Long id) {
         try{
+            System.out.println("hola");
             // The loan is searched in the database.
             SolicitudCreditoEntity credit = solicitudCreditoService.findById(id);
+            System.out.println("SIIIIIIIIIIIIIIIIi");
             // The loan is rejected.
             credit.setApplicationStatus("Cancelada");
+            System.out.println("estado "+ credit.getApplicationStatus());
             // The loan is saved in the database.
             SolicitudCreditoEntity creditSaved = solicitudCreditoService.saveCredit(credit);
             // The loan is returned.
@@ -181,7 +184,7 @@ public class SolicitudCreditoController {
         return ResponseEntity.ok(credits);
     }
     @PostMapping("/save")
-    public ResponseEntity<SolicitudCreditoEntity> save(@RequestParam("credito") SolicitudCreditoEntity credito){
+    public ResponseEntity<SolicitudCreditoEntity> save(@RequestBody SolicitudCreditoEntity credito){
         SolicitudCreditoEntity credit = solicitudCreditoService.saveCredit(credito);
         return ResponseEntity.ok(credit);
     }
