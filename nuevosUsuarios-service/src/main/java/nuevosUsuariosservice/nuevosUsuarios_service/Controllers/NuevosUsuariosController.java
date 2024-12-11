@@ -16,6 +16,23 @@ public class NuevosUsuariosController {
     @Autowired
     public NuevosUsuariosService nuevosUsuariosService;
     /**
+     * Controller that allows obtaining a client by id.
+     * @param id A Long with the client's id to search.
+     * @return A UserEntity with the client's data found.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<NuevosUsuariosEntity> getUser(@PathVariable Long id) {
+        try {
+            // The user is searched in the database.
+            NuevosUsuariosEntity user = nuevosUsuariosService.findUserById(id);
+            // The user found is returned.
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            // If the user is not found, return null.
+            return null;
+        }
+    }
+    /**
      * Controller that allows obtaining all the clients in the database.
      * @return A List with all the clients found.
      */
