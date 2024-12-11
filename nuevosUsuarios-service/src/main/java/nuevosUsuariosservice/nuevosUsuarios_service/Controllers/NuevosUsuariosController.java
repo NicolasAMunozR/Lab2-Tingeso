@@ -151,4 +151,51 @@ public class NuevosUsuariosController {
         List<SolicitudCreditoModel> credits = nuevosUsuariosService.findCreditByIdUser(userId);
         return ResponseEntity.ok(credits);
     }
+    @PostMapping("/save")
+    public ResponseEntity<NuevosUsuariosEntity> save(@RequestParam("credito") NuevosUsuariosEntity credito){
+        NuevosUsuariosEntity credit = nuevosUsuariosService.saveUser(credito);
+        return ResponseEntity.ok(credit);
+    }
+    /**
+     * Controller that allows depositing money into a client's account.
+     * @param id A Long with the client's id to deposit money.
+     * @param body A Map with the data of the deposit to make.
+     * @return A UserEntity with the client's data updated.
+     */
+    @PutMapping("/deposit")
+    public ResponseEntity<NuevosUsuariosEntity> deposit(@RequestParam("userId") Long id, @RequestParam("depositAccount") int depositAccount) {
+        try {
+            // The user is searched in the database.
+            NuevosUsuariosEntity user = nuevosUsuariosService.findUserById(id);
+            // The deposit is made in the user's account.
+            NuevosUsuariosEntity userModify = nuevosUsuariosService.deposit(user, depositAccount);
+            // The user's data is returned.
+            return ResponseEntity.ok(userModify);
+        } catch (Exception e) {
+            // If there is an error, return null.
+            return null;
+        }
+    }
+
+    /**
+     * Controller that allows withdrawing money from a client's account.
+     * @param id A Long with the client's id to withdraw money.
+     * @param body A Map with the data of the withdrawal to make.
+     * @return A UserEntity with the client's data updated.
+     */
+    @PutMapping("/withdrawal")
+    public ResponseEntity<NuevosUsuariosEntity> withdrawal(@RequestParam("userId") Long id, @RequestParam("withdrawalAccount") int withdrawalAccount) {
+        try {
+            // The user is searched in the database.
+            NuevosUsuariosEntity user = nuevosUsuariosService.findUserById(id);
+            // The withdrawal is made in the user's account.
+            NuevosUsuariosEntity userModify = nuevosUsuariosService.withdrawal(user, withdrawalAccount);
+            // The user's data is returned.
+            return ResponseEntity.ok(userModify);
+        } catch (Exception e) {
+            // If there is an error, return null.
+            return null;
+        }
+    }
+
 }

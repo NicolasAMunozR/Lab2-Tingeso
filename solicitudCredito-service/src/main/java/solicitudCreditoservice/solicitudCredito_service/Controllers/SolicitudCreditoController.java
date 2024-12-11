@@ -175,4 +175,14 @@ public class SolicitudCreditoController {
         List<SolicitudCreditoEntity> credits = solicitudCreditoService.findByIdUser(userId);
         return ResponseEntity.ok(credits);
     }
+    @GetMapping("/{Id}")
+    public ResponseEntity<SolicitudCreditoEntity> getById(@PathVariable Long Id){
+        SolicitudCreditoEntity credits = solicitudCreditoService.findById(Id);
+        return ResponseEntity.ok(credits);
+    }
+    @PostMapping("/save")
+    public ResponseEntity<SolicitudCreditoEntity> save(@RequestParam("credito") SolicitudCreditoEntity credito){
+        SolicitudCreditoEntity credit = solicitudCreditoService.saveCredit(credito);
+        return ResponseEntity.ok(credit);
+    }
 }

@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/simulacionCredito-service/pom.xml" />
         <option value="$PROJECT_DIR$/solicitudCredito-service/pom.xml" />
         <option value="$PROJECT_DIR$/seguimiento-service/pom.xml" />
+        <option value="$PROJECT_DIR$/evaluacionCredito-service/pom.xml" />
       </list>
     </option>
   </component>

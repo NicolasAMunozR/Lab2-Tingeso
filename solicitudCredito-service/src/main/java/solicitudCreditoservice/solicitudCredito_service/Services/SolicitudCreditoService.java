@@ -63,6 +63,7 @@ public class SolicitudCreditoService {
      * @param userId A Long with the id of the client to search the loan.
      * @return A List with the loans found.
      */
+    @Transactional
     public SolicitudCreditoEntity findById(Long id) {
         return solicitudCreditoRepository.findById(id).orElse(null);
     }
@@ -82,5 +83,4 @@ public class SolicitudCreditoService {
     public ArrayList<SolicitudCreditoEntity> findByIdUser(Long id) {
         return (ArrayList<SolicitudCreditoEntity>) solicitudCreditoRepository.findByUserId(id);
     }
-
 }

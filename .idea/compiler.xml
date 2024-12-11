@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
         <module name="solicitudCredito-service" />
+        <module name="evaluacionCredito-service (1) (com.tutorial)" />
         <module name="config-service" />
         <module name="nuevosUsuarios-service" />
         <module name="gateway-service" />
@@ -17,6 +18,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="evaluacionCredito-service (1)" target="17" />
+      <module name="evaluacionCredito-service (1) (com.tutorial)" target="17" />
+      <module name="evaluacionCredito-service (1) (evaluacionCreditoservice)" target="17" />
+      <module name="evaluacionCredito-service (2) (com.example)" target="17" />
+      <module name="evaluacionCredito-service (2) (com.tutorial)" target="17" />
+      <module name="evaluacionCredito-service (3)" target="17" />
       <module name="microServicio-Evaluacion" target="17" />
       <module name="usuario-service" target="17" />
     </bytecodeTargetLevel>
@@ -25,6 +32,13 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="config-service" options="-parameters" />
       <module name="eureka-service" options="-parameters" />
+      <module name="evaluacionCredito-service" options="-parameters" />
+      <module name="evaluacionCredito-service (1)" options="-parameters" />
+      <module name="evaluacionCredito-service (1) (com.tutorial)" options="-parameters" />
+      <module name="evaluacionCredito-service (1) (evaluacionCreditoservice)" options="-parameters" />
+      <module name="evaluacionCredito-service (2) (com.example)" options="-parameters" />
+      <module name="evaluacionCredito-service (2) (com.tutorial)" options="-parameters" />
+      <module name="evaluacionCredito-service (3)" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
       <module name="microServicio-Evaluacion" options="-parameters" />
       <module name="nuevosUsuarios-service" options="-parameters" />

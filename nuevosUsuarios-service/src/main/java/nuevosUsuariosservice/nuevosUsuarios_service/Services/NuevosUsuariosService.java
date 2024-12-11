@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,5 +91,62 @@ public class NuevosUsuariosService {
     public List<SolicitudCreditoModel> findCreditByIdUser(Long id){
         List<SolicitudCreditoModel> credit = restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/byUser/" + id, List.class);
         return credit;
+    }
+    /**
+     * Deposit money into the account.
+     * @param user A UserEntity with the user data.
+     * @param depositAccount An int with the amount to deposit.
+     * @return A UserEntity with the updated user data.
+     */
+    public NuevosUsuariosEntity deposit(NuevosUsuariosEntity user, int depositAccount) {
+        String deposit = String.valueOf(depositAccount);
+        String dateDeposit = LocalDate.now().toString();
+        String depositInitial = user.getDepositAccount() != null ? user.getDepositAccount() : "";
+        if (depositInitial.length() <= 0) {
+            depositInitial = dateDeposit + " " + deposit;
+        } else {
+            depositInitial = depositInitial + "," + dateDeposit + " " + deposit;
+        }
+        int currentSavingsBalance = user.getCurrentSavingsBalance();
+        currentSavingsBalance += depositAccount;
+        String savingsAccountHistory = user.getSavingsAccountHistory() != null ? user.getSavingsAccountHistory() : "";
+        if (savingsAccountHistory.length() <= 0) {
+            savingsAccountHistory = dateDeposit + " " + String.valueOf(currentSavingsBalance);
+        } else {
+            savingsAccountHistory = savingsAccountHistory + "," + dateDeposit + " " + String.valueOf(currentSavingsBalance);
+        }
+        user.setSavingsAccountHistory(savingsAccountHistory);
+        user.setCurrentSavingsBalance(currentSavingsBalance);
+        user.setDepositAccount(depositInitial);
+        return nuevosUsuariosRepository.save(user);
+    }
+
+    /**
+     * Withdraw money from the account.
+     * @param user A UserEntity with the user data.
+     * @param withdrawalAccount An int with the amount to withdraw.
+     * @return A UserEntity with the updated user data.
+     */
+    public NuevosUsuariosEntity withdrawal(NuevosUsuariosEntity user, int withdrawalAccount) {
+        String withdrawal = String.valueOf(withdrawalAccount);
+        String dateWithdrawal = LocalDate.now().toString();
+        String withdrawalInitial = user.getWithdrawalAccount() != null ? user.getWithdrawalAccount() : "";
+        if (withdrawalInitial.length() <= 0) {
+            withdrawalInitial = dateWithdrawal + " " + withdrawal;
+        } else {
+            withdrawalInitial = withdrawalInitial + "," + dateWithdrawal + " " + withdrawal;
+        }
+        int currentSavingsBalance = user.getCurrentSavingsBalance();
+        currentSavingsBalance -= withdrawalAccount;
+        String savingsAccountHistory = user.getSavingsAccountHistory() != null ? user.getSavingsAccountHistory() : "";
+        if (savingsAccountHistory.length() <= 0) {
+            savingsAccountHistory = dateWithdrawal + " " + String.valueOf(currentSavingsBalance);
+        } else {
+            savingsAccountHistory = savingsAccountHistory + "," + dateWithdrawal + " " + String.valueOf(currentSavingsBalance);
+        }
+        user.setSavingsAccountHistory(savingsAccountHistory);
+        user.setCurrentSavingsBalance(currentSavingsBalance);
+        user.setWithdrawalAccount(withdrawalInitial);
+        return nuevosUsuariosRepository.save(user);
     }
 }
