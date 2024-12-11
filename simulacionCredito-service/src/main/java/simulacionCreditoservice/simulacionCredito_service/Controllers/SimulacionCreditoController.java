@@ -1,4 +1,4 @@
-package main.java.simulacionCreditoservice.simulacionCredito_service.Controllers;
+package simulacionCreditoservice.simulacionCredito_service.Controllers;
 
 
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class SimulacionCreditoController {
     }
     
     @PostMapping("/simular")
-    public ResponseEntity<SimulacionCreditoModel> simularCredito(@RequestBody SimulacionCreditoRequestModel request) {
+    public ResponseEntity<SimulacionCreditoModel> simularCredito(@RequestBody SimulacionCreditoModel request) {
         SimulacionCreditoModel simulacion = simulacionCreditoService.simularCredito(
             request.getRequestedAmount(),
             request.getLoanTerm(),

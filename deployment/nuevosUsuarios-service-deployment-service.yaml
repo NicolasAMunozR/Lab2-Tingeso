@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nuevosUsuarios-service-deployment
+  labels:
+    app: nuevosUsuarios-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nuevosUsuarios-service-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nuevosUsuarios-service-deployment
+    spec:
+      containers:
+        - name: nuevosUsuarios-service-service
+          image: ttoto104/nuevosUsuarios-service
+          ports:
+            - containerPort: 8090

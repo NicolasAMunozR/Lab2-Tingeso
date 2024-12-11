@@ -4,11 +4,4 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8081
-  datasource:
-    url: jdbc:postgresql://localhost:5432/nuevosUsuarios
-    username: postgresql
-    password: alonsoreyes104
-  jpa:
-    hibernate:
-      ddl-auto: update
+      uri: http://config-service-service:8081

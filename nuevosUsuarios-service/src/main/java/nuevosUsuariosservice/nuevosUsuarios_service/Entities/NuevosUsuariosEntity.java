@@ -45,6 +45,8 @@ public class NuevosUsuariosEntity {
     @Column(name = "savings_account_history")
     private String savingsAccountHistory;
 
+    // Getter y setter para creationDate
+    @Getter
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
@@ -65,6 +67,30 @@ public class NuevosUsuariosEntity {
         this.file = file;
         this.jobSeniority = jobSeniority;
         this.birthdate = birthdate;
+    }
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+    public void setCurrentSavingsBalance(int currentSavingsBalance){
+        this.currentSavingsBalance = currentSavingsBalance;
+    }
+    public void setSavingsAccountHistory(String savingsAccountHistory){
+        this.savingsAccountHistory = savingsAccountHistory;
+    }
+    public void setDepositAccount(String depositAccount){
+        this.depositAccount = depositAccount;
+    }
+    public void setWithdrawalAccount(String withdrawalAccount){
+        this.withdrawalAccount = withdrawalAccount;
+    }
+    public void setFile(byte[] file){
+        this.file = file;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getName() {
+        return name;
     }
 }
 
