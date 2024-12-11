@@ -1,7 +1,14 @@
 spring:
   application:
-    name: nuevosUsusarios-service
+    name: nuevosUsuarios-service
   cloud:
     config:
       enabled: true
-      uri: http://config-service-service:8081
+      uri: http://localhost:8081
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nuevosUsuarios
+    username: postgres
+    password: alonsoreyes104
+  jpa:
+    hibernate:
+      ddl-auto: update
