@@ -19,6 +19,7 @@ public class SolicitudCreditoService {
      * @param credit A CreditEntity with the data of the loan to save.
      * @return A CreditEntity with the data of the loan saved.
      */
+    @Transactional
     public SolicitudCreditoEntity saveCredit(SolicitudCreditoEntity credit) {
         return solicitudCreditoRepository.save(credit);
     }

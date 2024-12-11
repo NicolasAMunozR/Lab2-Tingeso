@@ -175,7 +175,7 @@ public class SolicitudCreditoController {
         List<SolicitudCreditoEntity> credits = solicitudCreditoService.findByIdUser(userId);
         return ResponseEntity.ok(credits);
     }
-    @GetMapping("/{Id}")
+    @GetMapping("/buscar/{Id}")
     public ResponseEntity<SolicitudCreditoEntity> getById(@PathVariable Long Id){
         SolicitudCreditoEntity credits = solicitudCreditoService.findById(Id);
         return ResponseEntity.ok(credits);

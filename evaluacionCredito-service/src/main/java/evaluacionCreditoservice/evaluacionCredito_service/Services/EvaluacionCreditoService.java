@@ -25,8 +25,18 @@ public class EvaluacionCreditoService {
      * @return A List with the loans found.
      */
     public SolicitudCreditoModel findById(Long id) {
-        SolicitudCreditoModel credit = restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/" + id, SolicitudCreditoModel.class);
-        return credit;
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getAdministrationFee());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getCreditHistory());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getLoanTerm());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getBusinessPlan());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getAppraisalCertificate());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getAnnualInterestRate());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getMonthlyDebt());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getMonthlyIncome());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getUserId());
+        System.out.println(restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class).getRemodelingBudget());
+
+        return restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/buscar/" + id, SolicitudCreditoModel.class);
     }
     /**
      * Save a loan in the database.
@@ -42,20 +52,31 @@ public class EvaluacionCreditoService {
      * @return A CreditEntity with the loan evaluated.
      */
     public SolicitudCreditoModel evaluateCredit(SolicitudCreditoModel creditFound) {
+        System.out.println("AAAAAA");
         if (R1(creditFound) && R2(creditFound) && R3(creditFound) && R4(creditFound) && R5(creditFound) && R6(creditFound)) {
             String status = R7(creditFound);
             if (status.contains("Aprobado")) {
                 creditFound.setApplicationStatus("Pre-aprobado");
+                System.out.println("SIIIIIIIIIIIIIIIIIIIIII1");
+                System.out.println(restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class));
                 return restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class);
             } else if (status.contains("Revisión")) {
                 creditFound.setApplicationStatus("En evaluación");
+                System.out.println("SIIIIIIIIIIIIIIIIIIIIII2");
+                System.out.println(restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class));
                 return restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class);
             } else {
                 creditFound.setApplicationStatus("Rechazada");
-                return restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class);
+                System.out.println("SIIIIIIIIIIIIIIIIIIIIII3");
+                Map<String, Object> requestMap = new HashMap<>();
+                requestMap.put("credito", creditFound);
+                System.out.println(saveCredit(creditFound));
+                return saveCredit(creditFound);
             }
         } else {
             creditFound.setApplicationStatus("Rechazada");
+            System.out.println("NOOOOOOOOOOOOOOOOOOO");
+            System.out.println(restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class));
             return restTemplate.postForObject("http://solicitudCredito-service/solicitudCredito/save", creditFound, SolicitudCreditoModel.class);
         }
     }
@@ -111,13 +132,15 @@ public class EvaluacionCreditoService {
         int amount1 = creditFound.getRequestedAmount();
         int term = creditFound.getLoanTerm();
         Double annualInterestRate = creditFound.getAnnualInterestRate();
-        Map<String, String> requestMap = new HashMap<>();
-        requestMap.put("amount", String.valueOf(amount1)); // Clave compatible con el backend
-        requestMap.put("term", String.valueOf(term));
-        requestMap.put("interestRate", String.valueOf(annualInterestRate));
-        int monthlyFee = restTemplate.postForObject("http:///simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("amount", amount1); // Valor numérico
+        requestMap.put("term", term);
+        requestMap.put("interestRate", annualInterestRate);
+        int monthlyFee = restTemplate.postForObject("http://simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+        System.out.println("asdasda "+ monthlyFee);
         double averageIncome = averageIncome(creditFound);
         double FeeIncomeRatio = ((double) monthlyFee / averageIncome) * 100;
+        System.out.println("VAAAAAAAAAAAAAAA " + FeeIncomeRatio);
         if (FeeIncomeRatio <= 0.35) {
             return true;
         }
@@ -130,6 +153,7 @@ public class EvaluacionCreditoService {
      * @return A Boolean with the result of the loan evaluation.
      * * */
     public Boolean R2(SolicitudCreditoModel creditFound) {
+        System.out.println("AKJSDHASJKD");
         return creditFound.getCreditsHistory() != null ? creditFound.getCreditsHistory() : false;
     }
 
@@ -142,6 +166,7 @@ public class EvaluacionCreditoService {
         NuevosUsuariosModel user = restTemplate.getForObject("http://nuevosUsuarios-service/nuevosUsuarios/" + creditFound.getUserId(), NuevosUsuariosModel.class);
         assert user != null;
         int jobSeniority = user.getJobSeniority();
+        System.out.println("JABBBBBBBBBBB " + jobSeniority);
         if (jobSeniority >= 1) {
             return true;
         }
@@ -161,11 +186,12 @@ public class EvaluacionCreditoService {
             for (String part : parts) {
                 sum += Integer.parseInt(part);
             }
-            Map<String, String> requestMap = new HashMap<>();
-            requestMap.put("amount", String.valueOf(creditFound.getRequestedAmount())); // Clave compatible con el backend
-            requestMap.put("term", String.valueOf(creditFound.getLoanTerm()));
-            requestMap.put("interestRate", String.valueOf(creditFound.getAnnualInterestRate()));
-            sum += restTemplate.postForObject("http:///simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+            Map<String, Object> requestMap = new HashMap<>();
+            requestMap.put("amount", creditFound.getRequestedAmount()); // Valor numérico
+            requestMap.put("term", creditFound.getLoanTerm());
+            requestMap.put("interestRate", creditFound.getAnnualInterestRate());
+            sum += restTemplate.postForObject("http://simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+            System.out.println("VALOORORORORORO "+ sum);
             if (sum > (0.5 * averageIncome(creditFound))) {
                 return false;
             }
@@ -185,6 +211,9 @@ public class EvaluacionCreditoService {
         String typeOfLoan = creditFound.getTypeOfLoan();
         int propertyAmount = creditFound.getPropertyAmount();
         int requestedAmount = creditFound.getRequestedAmount();
+        System.out.println("typeoFloan "+ typeOfLoan);
+        System.out.println("property "+ propertyAmount);
+        System.out.println("request "+ requestedAmount);
         if (typeOfLoan.contains("Primera Vivienda")) {
             if (requestedAmount > (0.8 * propertyAmount)) {
                 return false;
@@ -221,7 +250,9 @@ public class EvaluacionCreditoService {
     public Boolean R6(SolicitudCreditoModel creditFound) {
         NuevosUsuariosModel user = restTemplate.getForObject("http://nuevosUsuarios-service/nuevosUsuarios/" + creditFound.getUserId(), NuevosUsuariosModel.class);
         LocalDate currentDate = LocalDate.now();
+        System.out.println("birthday "+ user.getBirthdate());
         int age = Period.between(user.getBirthdate(), currentDate).getYears();
+        System.out.println("inttttttttttttttt "+ age);
         if (age >= 70) {
             return false;
         }
@@ -234,6 +265,7 @@ public class EvaluacionCreditoService {
      * @return A String with the result of the loan evaluation.
      */
     public String R7(SolicitudCreditoModel creditFound) {
+        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEeee");
         int countTrue = 0;
         if (R71(creditFound)) {
             countTrue++;
@@ -251,12 +283,15 @@ public class EvaluacionCreditoService {
             countTrue++;
         }
         if (countTrue == 5) {
+            System.out.println("sIIIIIIIIIIIIiiisiisisiisisisiisis");
             return "Aprobado";
         }
         else if (countTrue >= 3 && countTrue <= 4) {
+            System.out.println("taltaltaltalrla");
             return "Revisión";
         }
         else {
+            System.out.println("nnnnnnnnnnnnnnnnnnnnnnnooooooooooooooasosaosa");
             return "Rechazado";
         }
     }
@@ -267,6 +302,9 @@ public class EvaluacionCreditoService {
      */
     public Boolean R71(SolicitudCreditoModel creditFound) {
         NuevosUsuariosModel user = restTemplate.getForObject("http://nuevosUsuarios-service/nuevosUsuarios/" + creditFound.getUserId(), NuevosUsuariosModel.class);
+        System.out.println("USEEEEEEEEEER " + user.getCurrentSavingsBalance());
+        System.out.println("usudusu "+ creditFound.getRequestedAmount());
+        assert user != null;
         int currentSavingsBalance = user.getCurrentSavingsBalance();
         int requestedAmount = creditFound.getRequestedAmount();
         if (currentSavingsBalance>=(0.1*requestedAmount)) {
@@ -282,6 +320,7 @@ public class EvaluacionCreditoService {
      */
     public Boolean R72(SolicitudCreditoModel creditFound) {
         NuevosUsuariosModel user = restTemplate.getForObject("http://nuevosUsuarios-service/nuevosUsuarios/" + creditFound.getUserId(), NuevosUsuariosModel.class);
+        System.out.println("SavingACCOUNT "+ user.getSavingsAccountHistory());
         String savingsAccount = user.getSavingsAccountHistory();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String[] entries = savingsAccount.split(",");
@@ -324,7 +363,9 @@ public class EvaluacionCreditoService {
      */
     public Boolean R73(SolicitudCreditoModel creditFound) {
         NuevosUsuariosModel user = restTemplate.getForObject("http://nuevosUsuarios-service/nuevosUsuarios/" + creditFound.getUserId(), NuevosUsuariosModel.class);
+        assert user != null;
         String depositAccount = user.getDepositAccount();
+        System.out.println("DEPOSIT "+ user.getDepositAccount());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String[] entries = depositAccount.split(",");
         LocalDate currentDate = LocalDate.now();
@@ -341,6 +382,7 @@ public class EvaluacionCreditoService {
         }
         double minimumRequiredDeposit = 0.05 * averageIncome(creditFound);
         boolean areDepositsRegular = depositCount > 0 && (depositCount >= 12 || (depositCount >= 3 && totalDeposits >= minimumRequiredDeposit));
+        System.out.println("oasnfknoafsknoafsknodfnjoasodn");
         if (areDepositsRegular && totalDeposits >= minimumRequiredDeposit) {
             return true;
         } else {
@@ -358,11 +400,12 @@ public class EvaluacionCreditoService {
         LocalDate creationDate = user.getCreationDate();
         LocalDate currentDate = LocalDate.now();
         int age = Period.between(creationDate, currentDate).getYears();
-        Map<String, String> requestMap = new HashMap<>();
-        requestMap.put("amount", String.valueOf(creditFound.getRequestedAmount())); // Clave compatible con el backend
-        requestMap.put("term", String.valueOf(creditFound.getLoanTerm()));
-        requestMap.put("interestRate", String.valueOf(creditFound.getAnnualInterestRate()));
-        int valor = restTemplate.postForObject("http:///simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("amount", creditFound.getRequestedAmount()); // Valor numérico
+        requestMap.put("term", creditFound.getLoanTerm());
+        requestMap.put("interestRate", creditFound.getAnnualInterestRate());
+        int valor = restTemplate.postForObject("http://simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+        System.out.println("laksdnhffffffffffffff "+ valor);
         if (age < 2 && user.getCurrentSavingsBalance() >= (0.2 * valor)) {
             return true;
         }
@@ -402,6 +445,7 @@ public class EvaluacionCreditoService {
                 }
             }
         }
+        System.out.println("tantantantasasdasd");
         if (noLargeWithdrawals) {
             return true;
         } else {
@@ -441,11 +485,11 @@ public class EvaluacionCreditoService {
      * @param credit A CreditEntity with the data of the loan to calculate the total cost.
      */
     public void totalCost(SolicitudCreditoModel credit) {
-        Map<String, String> requestMap = new HashMap<>();
-        requestMap.put("amount", String.valueOf(credit.getRequestedAmount())); // Clave compatible con el backend
-        requestMap.put("term", String.valueOf(credit.getLoanTerm()));
-        requestMap.put("interestRate", String.valueOf(credit.getAnnualInterestRate()));
-        int averageIncome = restTemplate.postForObject("http:///simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("amount", credit.getRequestedAmount()); // Valor numérico
+        requestMap.put("term", credit.getLoanTerm());
+        requestMap.put("interestRate", credit.getAnnualInterestRate());
+        int averageIncome = restTemplate.postForObject("http://simulacionCredito-service/simulacionCredito/simulation", requestMap, int.class);
         double lienInsurance = credit.getLienInsurance() * credit.getRequestedAmount();
         double administrationFee = credit.getAdministrationFee() * credit.getRequestedAmount();
         double monthlyCost = averageIncome + lienInsurance + 20000;

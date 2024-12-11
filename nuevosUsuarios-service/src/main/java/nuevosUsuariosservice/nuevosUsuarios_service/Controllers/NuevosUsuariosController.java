@@ -67,8 +67,8 @@ public class NuevosUsuariosController {
                 user.setCreationDate(LocalDate.now());
                 user.setCurrentSavingsBalance(0);
                 user.setSavingsAccountHistory("");
-                user.setDepositAccount("");
-                user.setWithdrawalAccount("");
+                user.setDepositAccount(LocalDate.now().toString()+" 0");
+                user.setWithdrawalAccount(LocalDate.now().toString()+" 0");
                 nuevosUsuariosService.saveUser(user);
                 // The user is saved in the database.
                 return ResponseEntity.ok(user);

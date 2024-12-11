@@ -26,6 +26,7 @@ public class NuevosUsuariosService {
      * @param user A UserEntity with the data of the client to save.
      * @return A UserEntity with the data of the client saved.
      */
+    @Transactional
     public NuevosUsuariosEntity saveUser(NuevosUsuariosEntity user) {
         return nuevosUsuariosRepository.save(user);
     }
@@ -65,6 +66,7 @@ public class NuevosUsuariosService {
      * @param id A Long with the id of the client to search.
      * @return A UserEntity with the data of the client found.
      */
+    @Transactional
     public NuevosUsuariosEntity findById(Long id) {
         return nuevosUsuariosRepository.findById(id).orElse(null);
     }
@@ -73,6 +75,7 @@ public class NuevosUsuariosService {
      * @param id A Long with the id of the client to search.
      * @return A UserEntity with the data of the client found.
      */
+    @Transactional
     public NuevosUsuariosEntity findUserById(Long id) {
         return nuevosUsuariosRepository.findById(id).orElse(null);
     }

@@ -25,8 +25,13 @@ public class EvaluacionCreditoController {
         try{
             // The loan is searched in the database.
             SolicitudCreditoModel creditFound = evaluacionCreditoService.findById(id);
+            if(creditFound != null){
+                System.out.println("BIENNNNNNNNNNNNNNNNNNNNNNN");
+            }
+            System.out.println("PDF size (bytes): " + creditFound.getCreditHistory().length);
             // The loan is evaluated.
             SolicitudCreditoModel approved = evaluacionCreditoService.evaluateCredit(creditFound);
+            System.out.println("asdsaffassa "+ approved);
             // The loan is returned.
             return ResponseEntity.ok(approved);
         }
