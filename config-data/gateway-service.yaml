@@ -25,10 +25,6 @@ spring:
               allowed-headers: "*"
               allow-credentials: true
       routes:
-        - id: costosTotales-service
-          uri: lb://costosTotales-service
-          predicates:
-            - Path=/costosTotales/**
         - id: evaluacionCredito-service
           uri: lb://evaluacionCredito-service
           predicates:
