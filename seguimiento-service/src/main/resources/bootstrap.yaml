@@ -7,7 +7,7 @@ spring:
       uri: http://localhost:8081
   datasource:
     url: jdbc:postgresql://localhost:5432/seguimiento
-    username: postgresql
+    username: postgres
     password: alonsoreyes104
   jpa:
     hibernate:
