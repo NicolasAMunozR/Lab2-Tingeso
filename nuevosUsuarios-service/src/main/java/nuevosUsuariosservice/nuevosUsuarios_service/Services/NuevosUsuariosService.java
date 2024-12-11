@@ -1,18 +1,24 @@
 package nuevosUsuariosservice.nuevosUsuarios_service.Services;
 
 import nuevosUsuariosservice.nuevosUsuarios_service.Entities.NuevosUsuariosEntity;
+import nuevosUsuariosservice.nuevosUsuarios_service.Models.SolicitudCreditoModel;
 import nuevosUsuariosservice.nuevosUsuarios_service.Repositories.NuevosUsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 public class NuevosUsuariosService {
     @Autowired
     private NuevosUsuariosRepository nuevosUsuariosRepository;
+    @Autowired
+    RestTemplate restTemplate;
+
     /**
      * Save a client in the database.
      * @param user A UserEntity with the data of the client to save.
@@ -78,5 +84,9 @@ public class NuevosUsuariosService {
         //if (creditService.getAllCredits().size() > 0) {
         //    creditService.deleted(user);
         //}
+    }
+    public List<SolicitudCreditoModel> findCreditByIdUser(Long id){
+        List<SolicitudCreditoModel> credit = restTemplate.getForObject("http://solicitudCredito-service/solicitudCredito/byUser/" + id, List.class);
+        return credit;
     }
 }

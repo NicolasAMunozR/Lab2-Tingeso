@@ -72,4 +72,13 @@ public class SolicitudCreditoService {
     public ArrayList<SolicitudCreditoEntity> getAllCredits() {
         return (ArrayList<SolicitudCreditoEntity>) solicitudCreditoRepository.findAll();
     }
+    /**
+     * Search for a loan in the database.
+     * @param user_id A Long with the id of the client to search the loan.
+     * @return A List with the loans found.
+     */
+    public ArrayList<SolicitudCreditoEntity> findByIdUser(Long id) {
+        return (ArrayList<SolicitudCreditoEntity>) solicitudCreditoRepository.findByUserId(id);
+    }
+
 }

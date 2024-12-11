@@ -170,4 +170,9 @@ public class SolicitudCreditoController {
         // The loans are returned.
         return ResponseEntity.ok(credits);
     }
+    @GetMapping("/byUser/{userId}")
+    public ResponseEntity<List<SolicitudCreditoEntity>> getCreditsByUserId(@PathVariable Long userId){
+        List<SolicitudCreditoEntity> credits = solicitudCreditoService.findByIdUser(userId);
+        return ResponseEntity.ok(credits);
+    }
 }

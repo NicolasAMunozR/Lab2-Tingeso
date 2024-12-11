@@ -1,6 +1,7 @@
 package nuevosUsuariosservice.nuevosUsuarios_service.Controllers;
 
 import nuevosUsuariosservice.nuevosUsuarios_service.Entities.NuevosUsuariosEntity;
+import nuevosUsuariosservice.nuevosUsuarios_service.Models.SolicitudCreditoModel;
 import nuevosUsuariosservice.nuevosUsuarios_service.Services.NuevosUsuariosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -140,5 +141,14 @@ public class NuevosUsuariosController {
             // If the user is not found, return null.
             return null;
         }
+    }
+    @GetMapping("/credit/{userId}")
+    public ResponseEntity<List<SolicitudCreditoModel>> getCredits(@PathVariable("userId") Long userId){
+        NuevosUsuariosEntity usuarios = nuevosUsuariosService.findUserById(userId);
+        if (usuarios == null){
+            return ResponseEntity.notFound().build();
+        }
+        List<SolicitudCreditoModel> credits = nuevosUsuariosService.findCreditByIdUser(userId);
+        return ResponseEntity.ok(credits);
     }
 }

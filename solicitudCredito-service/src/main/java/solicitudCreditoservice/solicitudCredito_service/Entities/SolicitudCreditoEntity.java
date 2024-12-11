@@ -3,6 +3,7 @@ package solicitudCreditoservice.solicitudCredito_service.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Data
 @Entity
 @Table(name = "credit")
 @AllArgsConstructor
@@ -10,7 +11,6 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@Data
 public class SolicitudCreditoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +19,13 @@ public class SolicitudCreditoEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "monthly_income", length = 10000 )
+    @Column(name = "monthly_income", length = 100000 )
     private String monthlyIncome;
 
     @Column(name = "credits_history")
     private Boolean creditsHistory;
 
     @Column(name = "requested_amount")
-
     private int requestedAmount;
 
     @Column(name = "loan_term")
@@ -85,7 +84,6 @@ public class SolicitudCreditoEntity {
 
     @Column(name = "total_amount")
     private int totalAmount;
-
 
     public SolicitudCreditoEntity(Long userId, String monthlyIncome, int requestedAmount, int loanTerm, double annualInterestRate, String typeOfLoan, Boolean creditsHistory, String monthlyDebt, int propertyAmount) {
         this.userId = userId;
