@@ -8,13 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/nuevosUsuarios")
-@CrossOrigin(origins = "*")
 public class NuevosUsuariosController {
     @Autowired
     public NuevosUsuariosService nuevosUsuariosService;
+    /**
+     * Controller that allows obtaining all the clients in the database.
+     * @return A List with all the clients found.
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<NuevosUsuariosEntity>> getAllUsers() {
+        // All users are searched in the database.
+        List<NuevosUsuariosEntity> users = nuevosUsuariosService.findAll();
+        // The users found are returned.
+        return ResponseEntity.ok(users);
+    }
     /**
      * Controller that allows creating a new client.
      * @param body A Map with the client's data to save.
