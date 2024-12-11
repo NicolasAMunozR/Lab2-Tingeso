@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
+        <module name="microServicio-Evaluacion" />
         <module name="config-service" />
         <module name="nuevosUsuarios-service" />
         <module name="gateway-service" />
@@ -22,6 +23,7 @@
       <module name="config-service" options="-parameters" />
       <module name="eureka-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
+      <module name="microServicio-Evaluacion" options="-parameters" />
       <module name="nuevosUsuarios-service" options="-parameters" />
       <module name="usuario-service" options="-parameters" />
     </option>

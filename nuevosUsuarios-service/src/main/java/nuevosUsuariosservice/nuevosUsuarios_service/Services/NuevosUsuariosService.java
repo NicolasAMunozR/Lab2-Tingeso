@@ -5,7 +5,6 @@ import nuevosUsuariosservice.nuevosUsuarios_service.Repositories.NuevosUsuariosR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
