@@ -1,7 +1,6 @@
 spring:
   application:
     name: simulacionCredito-service
-
   cloud:
     config:
       enabled: true

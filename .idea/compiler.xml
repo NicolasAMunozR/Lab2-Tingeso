@@ -8,13 +8,23 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
-        <module name="microServicio-Evaluacion" />
         <module name="config-service" />
         <module name="nuevosUsuarios-service" />
+        <module name="simulacionCredito-service" />
         <module name="gateway-service" />
+      </profile>
+      <profile name="Annotation profile for solicitudCredito-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="solicitudCredito-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="microServicio-Evaluacion" target="17" />
       <module name="usuario-service" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -25,6 +35,8 @@
       <module name="gateway-service" options="-parameters" />
       <module name="microServicio-Evaluacion" options="-parameters" />
       <module name="nuevosUsuarios-service" options="-parameters" />
+      <module name="simulacionCredito-service" options="-parameters" />
+      <module name="solicitudCredito-service" options="-parameters" />
       <module name="usuario-service" options="-parameters" />
     </option>
   </component>
