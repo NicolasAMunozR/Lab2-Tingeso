@@ -15,7 +15,7 @@ spec:
         app: evaluacioncredito-deployment
     spec:
       containers:
-        - name: nuevosUsuarios-service
+        - name: evaluacioncredito-service
           image: ttoto104/evaluacioncredito-service
           ports:
             - containerPort: 8097

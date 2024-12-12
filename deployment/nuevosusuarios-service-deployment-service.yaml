@@ -15,7 +15,7 @@ spec:
         app: nuevosusuarios-deployment
     spec:
       containers:
-        - name: nuevosUsuarios-service
+        - name: nuevosusuarios-service
           image: ttoto104/nuevosusuarios-service
           ports:
             - containerPort: 8093

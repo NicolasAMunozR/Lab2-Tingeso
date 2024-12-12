@@ -15,7 +15,7 @@ spec:
         app: seguimiento-deployment
     spec:
       containers:
-        - name: nuevosUsuarios-service
+        - name: seguimiento-service
           image: ttoto104/seguimiento-service
           ports:
             - containerPort: 8094
