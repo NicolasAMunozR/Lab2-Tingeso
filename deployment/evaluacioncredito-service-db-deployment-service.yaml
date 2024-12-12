@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: evaluacioncredito-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/evaluacioncredito-db-data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: evaluacioncredito-db-pvc
+  labels:
+    app: postgres
+    tier: database
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evaluacioncredito-db-deployment
+  labels:
+    app: evaluacioncredito-db-deployment
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: evaluacioncredito-db-deployment
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: evaluacioncredito-db-deployment
+        tier: database
+    spec:
+      containers:
+        - name: evaluacioncredito-db
+          image: postgres
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: evaluacioncredito-db-data
+      volumes:
+        - name: evaluacioncredito-db-data
+          persistentVolumeClaim:
+            claimName: evaluacioncredito-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: evaluacioncredito-db-service
+  labels:
+    app: evaluacioncredito-db-service
+    tier: database
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: evaluacioncredito-db-deployment
+    tier: database
+  type: LoadBalancer

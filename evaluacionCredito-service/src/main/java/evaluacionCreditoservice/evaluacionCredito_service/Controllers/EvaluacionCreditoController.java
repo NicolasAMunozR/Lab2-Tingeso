@@ -51,7 +51,13 @@ public class EvaluacionCreditoController {
             // The loan is searched in the database.
             SolicitudCreditoModel credit = evaluacionCreditoService.findById(id);
             // If the loan is pending documentation.
-            if(credit.getApplicationStatus().equals("Pendiente de documentación")) {
+            System.out.println("asdddddddddddddddddddddddddddddddddddddd");
+            System.out.println(credit.getApplicationStatus());
+            if(credit.getApplicationStatus().equals("En revisión")) {
+                // The loan is in review.
+                credit.setApplicationStatus("En evaluación");
+            }
+            else if(credit.getApplicationStatus().equals("Pendiente de documentación")) {
                 // The loan is in review.
                 credit.setApplicationStatus("En evaluación");
             }
@@ -81,6 +87,7 @@ public class EvaluacionCreditoController {
                 // If the loan is rejected.
                 return null;
             }
+            System.out.println("hjsssssssssssssssssssssssssssssss");
             // The loan is saved in the database.
             SolicitudCreditoModel creditSaved = evaluacionCreditoService.saveCredit(credit);
             // The loan is returned.

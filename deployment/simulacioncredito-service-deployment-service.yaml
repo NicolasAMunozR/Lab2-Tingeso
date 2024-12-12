@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulacioncredito-deployment
+  labels:
+    app: simulacioncredito-deployment
+spec:
+  selector:
+    matchLabels:
+      app: simulacioncredito-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: simulacioncredito-deployment
+    spec:
+      containers:
+        - name: simulacioncredito-service
+          image: ttoto104/simulacioncredito-service
+          ports:
+            - containerPort: 8096

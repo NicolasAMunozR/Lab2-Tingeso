@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solicitudcredito-deployment
+  labels:
+    app: solicitudcredito-deployment
+spec:
+  selector:
+    matchLabels:
+      app: solicitudcredito-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: solicitudcredito-deployment
+    spec:
+      containers:
+        - name: solicitudcredito-service
+          image: ttoto104/solicitudcredito-service
+          ports:
+            - containerPort: 8095

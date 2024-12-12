@@ -4,11 +4,15 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8081
+      uri: http://config-service-service:8081
   datasource:
-    url: jdbc:postgresql://localhost:5432/simulacionCredito
+    url: jdbc:postgresql://simulacioncredito-db-service:5435/simulacionCredito
     username: postgres
     password: alonsoreyes104
+    driver-class-name: org.postgresql.Driver
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update

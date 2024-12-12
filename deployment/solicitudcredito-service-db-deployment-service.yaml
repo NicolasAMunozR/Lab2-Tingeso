@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nuevosUsuarios-service-db-pv
+  name: solicitudcredito-db-pv
   labels:
     type: local
 spec:
@@ -11,12 +11,12 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/data/nuevosUsuarios-service-db-data"
+    path: "/data/solicitudcredito-db-data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nuevosUsuarios-service-db-pvc
+  name: solicitudcredito-db-pvc
   labels:
     app: postgres
     tier: database
@@ -31,24 +31,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nuevosUsuarios-service-db-deployment
+  name: solicitudcredito-db-deployment
   labels:
-    app: nuevosUsuarios-service-db-deployment
+    app: solicitudcredito-db-deployment
     tier: database
 spec:
   selector:
     matchLabels:
-      app: nuevosUsuarios-service-db-deployment
+      app: solicitudcredito-db-deployment
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: nuevosUsuarios-service-db-deployment
+        app: solicitudcredito-db-deployment
         tier: database
     spec:
       containers:
-        - name: nuevosUsuarios-service-db
+        - name: solicitudcredito-db
           image: postgres
           imagePullPolicy: "IfNotPresent"
           ports:
@@ -61,25 +61,25 @@ spec:
                   key: DB_PASSWORD
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: nuevosUsuarios-service-db-data
+              name: solicitudcredito-db-data
       volumes:
-        - name: nuevosUsuarios-service-db-data
+        - name: solicitudcredito-db-data
           persistentVolumeClaim:
-            claimName: nuevosUsuarios-service-db-pvc
+            claimName: solicitudcredito-db-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nuevosUsuarios-service-db-service
+  name: solicitudcredito-db-service
   labels:
-    app: nuevosUsuarios-service-db-service
+    app: solicitudcredito-db-service
     tier: database
 spec:
   ports:
-    - port: 5432
+    - port: 5436
       targetPort: 5432
       protocol: TCP
   selector:
-    app: nuevosUsuarios-service-db-deployment
+    app: solicitudcredito-db-deployment
     tier: database
   type: LoadBalancer
